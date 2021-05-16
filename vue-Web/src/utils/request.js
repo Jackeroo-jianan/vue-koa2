@@ -1,0 +1,71 @@
+/*
+axios二次封装
+*/
+
+import axios from 'axios'
+import config from '../config/index'
+import { ElMessage } from 'element-plus'
+import router from './../router'
+
+const TOKEN_INVALID = 'Token认证失败'
+const NETWORK_ERROR = '登录失败，网络连接错误'
+
+//axios实例对象，添加全局的配置管理
+const instance = axios.create({
+    baseURL: config.baseApi,
+    timeout: 10000,
+  });
+
+  //请求拦截
+  instance.interceptors.request.use((req)=>{
+      //TO-DO
+      const headers = req.headers
+      if (!headers.Authorization) {
+          headers.Authorization = 'Bear Jack'
+        }
+      return req;
+  })
+
+  //响应拦截
+  instance.interceptors.response.use((res)=>{
+
+    const { code,data,msg } = res.data;//接口返回的数据
+
+    if(code === 200){//登录成功，返回数据=====
+        return data;
+    }else if(code === 40001){//登录失效======
+        ELMesage.error(TOKEN_INVALID)
+        setTimeout(()=>{
+            router.push('/login')//2s后返回登录界面
+        },2000)
+        return Promise.reject(TOKEN_INVALID)
+    }else{                 //网络异常=======
+        ElMessage.error(msg || NETWORK_ERROR)
+        return Promise.reject(msg || NETWORK_ERROR)
+    } 
+})
+
+//最终的封装函数
+function request(options){
+    
+    //method默认为GET请求
+    options.method = options.method || 'get'
+    if (options.method.toLowerCase() === 'get'){//兼容大小写
+        
+        console.log('options.data==',options.data)
+        options.params = options.data;//获取请求的data
+    }
+
+    //确保生产环境下调用baseApi，加一层保险
+    if(config.env === 'production'){
+        instance.defaults.baseURL = config.baseApi
+    }else{//通过在congfig文件里设置是否调用mock接口
+        instance.defaults.baseURL = config.mock ? config.mockApi : config.baseApi
+    }
+    
+    //返回的是一个promise对象
+    return instance(options)
+
+}
+
+export default request
