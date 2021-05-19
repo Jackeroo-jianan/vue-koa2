@@ -46,13 +46,13 @@ exports.debug = (content)=>{
 }
 
 exports.info = (content)=>{
-    let logger = log4js.getLogger('info');
+    let logger = log4js.getLogger('default');
     logger.level = levels.info;
     logger.info(content)
 }
 
 exports.error = (content)=>{
-    let logger = log4js.getLogger('error');
+    let logger = log4js.getLogger('errors');
     logger.level = levels.error;
     logger.error(content)
 }

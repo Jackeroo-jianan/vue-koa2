@@ -1,7 +1,7 @@
 <template>
 <div>
   <h1>欢迎来到欢迎界面</h1>
-  <router-link to='/Login'>去登陆</router-link>
+  <router-link to='/login'>去登陆</router-link>
 
 </div>
   
