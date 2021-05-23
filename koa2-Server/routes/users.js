@@ -16,8 +16,7 @@ router.post('/login',async (ctx)=>{
     })
  
     if(res){
-      data.token = token;
-      ctx.body = util.success(data)
+      ctx.body = util.success(res)
     }else{
       ctx.body = util.fail("用户名或密码不正确,请重新输入")
     }
