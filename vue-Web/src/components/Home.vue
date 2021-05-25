@@ -15,7 +15,7 @@
     text-color="#fff"
    :collapse="isCollapse"
   >
-     <tree-menu  :menuList='menuList'/>
+     <TreeMenu  :menuList='menuList'/>
    </el-menu>    
    
     </div>

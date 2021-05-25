@@ -18,7 +18,7 @@
  }
  export default {
      env,
-     mock:true,
+     mock:false,
      namespace:'manager',
      
      //剩余参数，导出当前env的baseApi和mockApi
