@@ -10,7 +10,7 @@ const userSchema =  mongoose.Schema({
     "deptId": [],          //所属部门
     "job": String,         //岗位
     
-    "state":{              // 1: 在职 2: 离职 3: 试用期
+    "state":{              // 1:  2: 实习 3: 离职
         type:Number,
         default:1
     } ,          

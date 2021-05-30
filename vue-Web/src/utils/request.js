@@ -58,15 +58,17 @@ function request(options) {
         options.params = options.data;//获取请求的data
     }
 
+    let isMock = config.mock
+    //未配置mock参数就采取全局(config/index.js下)
     if(typeof options.mock != 'undefined'){
-        config.mock = options.mock;
+        isMock = options.mock;
     }
     
     //确保生产环境下调用baseApi，加一层保险
      if(config.env === 'production'){
          instance.defaults.baseURL = config.baseApi
      }else{//通过在congfig文件里设置是否调用mock接口
-        instance.defaults.baseURL = config.mock ? config.mockApi : config.baseApi
+        instance.defaults.baseURL = isMock ? config.mockApi : config.baseApi
      }
 
     //返回promise对象
