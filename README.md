@@ -9,4 +9,15 @@
 ## Compass加入数据
 ![image](https://github.com/Jackeroo-jianan/vue-koa2/blob/2-%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/images/1622470068(1).png)
 ## 登录方法实现
+在前端vite.config中，设置代理进行前后端联调：<br>
+export default defineConfig({<br>
+  &nbsp;server:{<br>
+    &nbsp;&nbsp;host:'localhost',<br>
+    &nbsp;&nbsp;port:8080,<br>
+  &nbsp;&nbsp;  proxy:{ //前后端联调代理<br>
+     &nbsp;&nbsp;&nbsp;  "/api":{<br>
+      &nbsp;&nbsp;&nbsp;  target:"http://localhost:3000"<br>
+      }
+   }
+  },<br>
 在数据库中插入相关文档后，前端传入用户名和密码，后端接收这两个字段，利用mongoose的findOne方法实现
