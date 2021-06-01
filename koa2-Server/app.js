@@ -7,7 +7,11 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const log4js = require('./utils/log4js')
 const users = require('./routes/users')
+const jwt = require('jsonwebtoken')
+const koajwt = require('koa-jwt')
+const util = require('./utils/util')
 const router = require('koa-router')()
+
 
 
 // error handler
@@ -30,13 +34,30 @@ app.use(views(__dirname + '/views', {
 logger
 app.use(async (ctx, next) => {
   const start = new Date()
-  await next()
+  
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
   log4js.info('log out')
+
+  //提示token认证失败，但是允许发送请求
+  await next().catch((err)=>{
+    if(err.status == '401'){
+      ctx.status = 200
+      ctx.body = util.fail('token认证失败了',util.CODE.AUTH_ERROR)
+    }else{
+      throw err
+    }
+  })
+   
 })
 
+//koajwt进行token认证拦截，默认是401
+ app.use(koajwt({secret:'imooc'}).unless({
+   path:[/^\/api\/users\/login/]  //login接口允许放行
+ }))                             
+
 router.prefix('/api')
+
 router.use(users.routes(), users.allowedMethods())
 
 app.use(router.routes(), router.allowedMethods())

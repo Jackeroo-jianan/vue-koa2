@@ -6,6 +6,7 @@ import axios from 'axios'
 import config from '../config/index'
 import { ElMessage } from 'element-plus'
 import router from './../router'
+import storage from './storage'
 
 const TOKEN_INVALID = 'Token认证失败'
 const NETWORK_ERROR = '登录失败，网络连接错误'
@@ -20,8 +21,9 @@ const instance = axios.create({
 instance.interceptors.request.use((req) => {
     //TO-DO
     const headers = req.headers
+    const { token } = storage.getItem('userInfo') 
     if (!headers.Authorization) {
-        headers.Authorization = 'jackeroo'
+        headers.Authorization = 'Bearer ' + token
     }
     return req;
 })
@@ -34,7 +36,7 @@ instance.interceptors.response.use((res) => {
     if (code === 200) {//登录成功，返回数据=====
         return data;
     } else if (code === 500001) {//登录失效======
-        ELMesage.error(TOKEN_INVALID)
+        ElMessage.error(TOKEN_INVALID)
         setTimeout(() => {
             router.push('/login')//2s后返回登录界面
         }, 2000)
