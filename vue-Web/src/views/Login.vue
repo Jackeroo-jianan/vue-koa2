@@ -2,14 +2,14 @@
 <div class="wrapper">
     <div class="model">
       <!-- ref来表单校验(触发登录时)，status-icon输入时出现 :rules表单验证(不触发事件) -->
-      <el-form ref='check' :model='user' status-icon :rules="rules">
+      <el-form ref='check' :model='users' status-icon :rules="rules">
         <div class="title">Admin</div>
         <!-- 表单验证需要传入prop -->
-        <el-form-item prop='name'>
-          <el-input type='text' prefix-icon="el-icon-user" v-model='user.name'></el-input>
+        <el-form-item prop='userName'>
+          <el-input type='text' prefix-icon="el-icon-user" v-model='users.userName' placeholder="用户名"></el-input>
         </el-form-item>
-        <el-form-item prop='password'>
-          <el-input type='password' prefix-icon="el-icon-view" v-model='user.password'></el-input>
+        <el-form-item prop='userPwd'>
+          <el-input type='password' prefix-icon="el-icon-view" v-model='users.userPwd' placeholder="密码"></el-input>
         </el-form-item>
         <el-form-item class='login'>
           <el-button type='primary' class='login_btn' @click='handleLogin'>登录</el-button>
@@ -26,18 +26,18 @@ export default {
   name:'login',
   data(){
     return{
-      user:{
-        name:'',
-        password:''
+      users:{
+        userName:'',
+        userPwd:''
       },
 
       //表单校验规则(非触发事件响应)
       rules:{
-        name:[
+        userName:[
           //required是否必填，message默认显示内容，trigger触发条件:blur=>失去焦点，change=>数据改变
           {required:true,message:'请输入用户名',trigger:'blur'}
           ],
-        password:[
+        userPwd:[
           {required:true,message:'请输入密码',trigger:'blur'}
         ]
       }
@@ -50,10 +50,9 @@ export default {
         //表单校验通过，发送post请求获取数据，访问正常跳转页面，并进入store
         if(vaild){
           
-          this.$request.post('/users/login',this.$user).then((res)=>{
+          this.$request.post('/users/login',this.users).then((res)=>{
             this.$store.commit('saveUserInfo',res)
-            this.$router.push('/welcome')
-            
+            this.$router.push('/welcome')  
           })
         }
         else{return false}

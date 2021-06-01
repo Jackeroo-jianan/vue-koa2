@@ -52,7 +52,7 @@ function request(options) {
     options.method = options.method || 'get'
     if (options.method.toLowerCase() === 'get') {//兼容大小写
 
-        console.log('options.data==', options.data)
+        //console.log('options.data==', options.data)
         options.params = options.data;//获取请求的data
     }
 

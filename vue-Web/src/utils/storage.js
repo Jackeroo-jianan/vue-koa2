@@ -5,7 +5,7 @@ key值为命名空间，value值为JSON.stringify()后的JSON格式字符串；
 */
 
 import config from "../config"
-
+/*
 
 //设置localStorage
 const setItem=(key,val)=>{
@@ -49,4 +49,26 @@ export default {
     clearItem,
     clearAll,
     
+}
+*/
+export default {
+    setItem(key,val){
+        let storage = this.getStroage();
+        storage[key] = val;
+        window.localStorage.setItem(config.namespace,JSON.stringify(storage));
+    },
+    getItem(key){
+        return this.getStroage()[key]
+    },
+    getStroage(){
+        return JSON.parse(window.localStorage.getItem(config.namespace) || "{}");
+    },
+    clearItem(key){
+        let storage = this.getStroage()
+        delete storage[key]
+        window.localStorage.setItem(config.namespace,JSON.stringify(storage));
+    },
+    clearAll(){
+        window.localStorage.clear()
+    }
 }

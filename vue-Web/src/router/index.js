@@ -17,6 +17,7 @@ const routes=[{
             meta:{ title:'欢迎页' },
             component:()=>import('./../views/Welcome.vue'),
         },
+        
        
     ]
 },
