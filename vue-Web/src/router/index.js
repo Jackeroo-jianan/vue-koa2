@@ -17,6 +17,12 @@ const routes=[{
             meta:{ title:'欢迎页' },
             component:()=>import('./../views/Welcome.vue'),
         },
+        {
+            name:'user',
+            path:'/user',
+            meta:{ title:'用户增删改查' },
+            component:()=>import('./../views/User.vue'),
+        },
         
        
     ]

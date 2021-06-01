@@ -6,7 +6,6 @@
     <div class="welcome__desc">—author: jackeroo &nbsp;&nbsp;&nbsp;&nbsp;Date: {{dateFormat(date)}}</div>
   </div>
   <div class="img" ></div>
-
 </div>
   
   
@@ -52,12 +51,15 @@ export default {
 <style lang='scss' scoped>
  .wrapper__welcome{
    position:relative;
-   
+   background-color: #fff;
+   height: 100%;
+   width: 100%;
    .welcome{
      position:absolute;
      top:30vh;
      left:10vw;
      margin: 0.1rem;
+      background-color: #fff;
      .welcome__prompt{
        font-size: 0.18rem;
        

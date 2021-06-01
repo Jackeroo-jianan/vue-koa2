@@ -19,4 +19,4 @@ console.log('环境变量：',import.meta.env)
 app.config.globalProperties.$request = request;
 app.config.globalProperties.$storage = storage;
 
-app.use(router).use(store).use(ElementPlus).mount('#app')
+app.use(router).use(store).use(ElementPlus, { size: 'small', zIndex: 3000 }).mount('#app')

@@ -1,5 +1,5 @@
 {
-  "name": "manager-fe",
+  "name": "vue-koa2",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --mode dev",

@@ -5,7 +5,7 @@
       <!-- <div :class= nav> -->
       <div class="nav__desc">
         <img class="nav__desc__img" src="./../assets/佐助.jpg" />
-        <span class="nav__desc__title" v-if="!isCollapse">我的管理</span>
+        <span class="nav__desc__title" v-if="!isCollapse">vue+koa2</span>
         
       </div>
       <!-- 左侧菜单栏组件 -->
@@ -48,9 +48,7 @@
       </div>
       <!-- 右侧主页内容 -->
       <div class="wrapper__main">
-        <div class="wrapper__main__page">
           <router-view> </router-view>
-        </div>
       </div>
     </div>
   </div>
@@ -98,7 +96,6 @@ export default {
         const result = await this.$request.get("/menu/list");
         
         this.menuList = result;
-        console.log(this.menuList)
       } catch (err) {
         console.log(err);
       }
@@ -194,12 +191,8 @@ export default {
       right: 0;
       bottom: 0;
       background-color: #f5f5f5;
-      padding: 0.2rem;
-      //height: calc(100vh - 0.5rem);
-      .wrapper__main__page {
-        background-color: #fff;
-        height: 100%;
-      }
+      padding: 0.2rem 0.2rem 0 0.2rem;
+      overflow-y:auto ;
     }
   }
 }
