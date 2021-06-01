@@ -7,27 +7,27 @@
 官方文档：<br>
 https://cn.vitejs.dev/<br><br>
 ### 创建命令：<br>
-npm init @vitejs/app xxx<br><br>
+    npm init @vitejs/app xxx
 ### 项目初始化<br>
-npm init<br><br>
+    npm init
 ### 配置必须的插件
-如vuex,vue-router,element-plus，axios，sass等,只有sass添加在开发环境下<br>
-npm add sass -D<br><br>
+    如vuex,vue-router,element-plus，axios，sass等,只有sass添加在开发环境下
+    npm add sass -D
 ### 启动项目<br>
-npm run dev
+    npm run dev
 ### 目录结构
 ![image](https://github.com/Jackeroo-jianan/vue-koa2/blob/1-%E5%89%8D%E5%90%8E%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/images/1622467771(1).png)
 ## 后端环境搭建
 
 ###  koa脚手架工具安装
-npm install -g koa-generator 
+    npm install -g koa-generator 
 
 ### 创建项目文件
-koa2 xxx
+    koa2 xxx
 ### 项目初始化
-npm install
+    npm install
 ### 启动项目<br>
-npm run dev
+    npm run dev
 ### 目录结构
 ![image](https://github.com/Jackeroo-jianan/vue-koa2/blob/1-%E5%89%8D%E5%90%8E%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/images/1622468689(1).png)
 ## 总结
