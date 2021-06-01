@@ -10,16 +10,16 @@ const userSchema =  mongoose.Schema({
     "deptId": [],          //所属部门
     "job": String,         //岗位
     
-    "state":{              // 1:  2: 实习 3: 离职
+    "state":{              // 1:在岗  2: 实习 3: 离职
         type:Number,
         default:1
     } ,          
     
-    "role": {               // 权限 0：系统管理员  1： 普通用户
+    "role": {               // 权限 0：会员  1： 普通用户
         type:Number,
         default:1
     },          
-    "roleList": [],        //系统角色
+    "roleList": [],        //系统角色，ex:运维，测试，开发···，可多选择
     
     "createTime":{         //创建时间
         type:Date,
