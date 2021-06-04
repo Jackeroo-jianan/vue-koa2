@@ -49,7 +49,6 @@ export default {
       this.$refs.check.validate((vaild)=>{//validate:对整个表单进行校验的方法
         //表单校验通过，发送post请求获取数据，访问正常跳转页面，并进入store
         if(vaild){
-          
           this.$request.post('/users/login',this.users,{mock:false}).then((res)=>{
             this.$store.commit('saveUserInfo',res)
             this.$router.push('/welcome')  

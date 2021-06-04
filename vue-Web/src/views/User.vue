@@ -32,7 +32,7 @@
       <!-- 公共功能 -->
       <div class="actions">
         <el-button type="primary" @click="handleCreate">新增</el-button>
-        <el-button type="danger" @click="handleBatchDel">删除</el-button>
+        <el-button type="danger" @click="handleBatchDel">批量删除</el-button>
       </div>
       <!-- 用户信息表单 -->
       <el-table :data="userList" @selection-change="handleSelectionChange">
@@ -46,18 +46,13 @@
           :formatter="item.formatter"
         />
         <!-- 增加操作列 -->
-        <el-table-column label="操作">
+        <el-table-column label="操作" >
           <!-- 通过#default="scope"获取当前行的属性 -->
           <template #default="scope">
-            <el-button
-              size="mini"
-              type="text"
-              @click="handleEdit(scope.row)"
-              >编辑</el-button
-            >
-            <el-button
-              size="mini"
-              type="text"
+            <el-button size="mini" type="primary" plain
+             @click="handleEdit(scope.row)"
+              >编辑</el-button>
+            <el-button size="mini" type="danger" plain
               @click="handleSingleDel(scope.row)"
               >删除</el-button
             >
@@ -75,7 +70,7 @@
       </el-pagination>
     </div>
     <!-- 新增用户弹框 -->
-    <el-dialog title='action.value' v-model="showCreateForm" :before-close="beforeClose">
+    <el-dialog title='新增用户' v-model="showCreateForm" :before-close="beforeClose" center>
       <el-form ref='newForm' :model="userForm" label-width='100px' :rules='rules'>
         <el-form-item label="用户名" prop="userName" >
           <el-input v-model="userForm.userName" placeholder="请输入用户名称" />
@@ -164,28 +159,29 @@ export default {
     const action = ref('add')
     //--初始化表格格式--
     const columns = reactive([
-      { label: "用户ID", prop: "userId", width: 80 },
-      { label: "用户名", prop: "userName" },
-      { label: "邮箱", prop: "userEmail", width: 180 },
-      { label: "权限", prop: "role", width: 80,
+      { label: "用户ID", prop: "userId",width:70},
+      { label: "用户名", prop: "userName",width:80},
+      { label: "邮箱", prop: "userEmail",},
+      { label: "权限", prop: "role",width:80, 
         formatter(row, column, value) {
           return { 0: "管理员", 1: "会员" }[value];},},
-      { label: "状态", prop: "state", width: 80,
+      { label: "状态", prop: "state" ,width:100,
         formatter(row, column, value) {
           return { 1: "在岗", 2: "实习", 3: "离职" }[value];},},
-      { label: "注册时间", prop: "createTime", width: 180, 
+      { label: "注册时间", prop: "createTime", 
         formatter(row, column, value) {
           return utils.dateFormat("YYYY-mm-dd HH:MM",new Date(value))}},
-      { label: "最后登录时间", prop: "lastLoginTime", width: 180 ,
+      { label: "最后登录时间", prop: "lastLoginTime", width:150,
        formatter(row, column, value) {
           return utils.dateFormat("YYYY-mm-dd HH:MM",new Date(value))}},
+
     ]);
     //--定义表单校验规则--
     const rules = reactive({
         userName:[{ required:true,message:'请输入用户名称',trigger:'blur' }],
         userEmail:[{ required:true,message:'请输入用户邮箱',trigger:'blur' }],
         mobile:[{ required:true,message:'请输入用户手机号',trigger:'blur' }],
-        deptId:[{ required:true,message:'请输入用户邮箱',trigger:'blur' }]
+        deptId:[{ required:true,message:'请选择所在部门',trigger:'blur' }]
     })
     
     //==页面自动加载用户列表==
@@ -304,11 +300,11 @@ export default {
           params.action = action.value;
           let res = await proxy.$request.post('users/operate',params,{mock:false})
           if (res){
-            proxy.$message.success('操作成功')
+            proxy.$message.success('提交成功')
             handleReset('newForm')
             getUserList()
           }else{
-            proxy.$message.error('操作失败');
+            proxy.$message.error('提交失败');
          }
         }
       })

@@ -13,6 +13,7 @@
     class="el-menu-vertical-demo"
     background-color="#001529"
     text-color="#fff"
+    router
    :collapse="isCollapse"
   >
      <TreeMenu  :menuList='menuList'/>
@@ -93,7 +94,7 @@ export default {
     },
     async getMenuList() {//获取菜单列表
       try {
-        const result = await this.$request.get("/menu/list");
+        const result = await this.$request.get("/menu/list",'');
         
         this.menuList = result;
       } catch (err) {

@@ -19,10 +19,16 @@ const routes=[{
         },
         {
             name:'user',
-            path:'/user',
+            path:'/system/user',
             meta:{ title:'用户增删改查' },
             component:()=>import('./../views/User.vue'),
         },
+        {
+            name:'menu',
+            path:'/system/menu',
+            meta:{ title:'这是菜单页' },
+            component:()=>import('./../views/Menu.vue'),
+        }
         
        
     ]

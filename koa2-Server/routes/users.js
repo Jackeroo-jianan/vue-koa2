@@ -7,6 +7,7 @@ const util = require('./../utils/util')
 const jwt = require('jsonwebtoken')
 const counter = require('../models/counterSchema')
 const md5 = require('md5')
+
 router.prefix('/users')
 
 //=====登录验证的接口=====
@@ -44,7 +45,7 @@ router.post('/login', async (ctx) => {
   }
 })
 
-//=====查询用户的接口=====
+//=====查询用户/获取用户信息 的接口=====
 router.get('/list',async (ctx)=>{
   const{ userName,userId,state } = ctx.request.query
   const { page,skipIndex } = util.pager(ctx.request.query)
@@ -52,7 +53,7 @@ router.get('/list',async (ctx)=>{
   let params = {}
   if(userName){ params.userName = userName }
   if(userId) { params.userId = userId }
-  if(state && state!='0') { params.state = state }
+  if(state && state!='0') { params.state = state }//需要查询的字段是userName和userId和state
 
   const query = User.find(params,{_id:0,userPwd:0})//查询符合的数据并返回，过滤掉_id和userPwd
   const list = await query.skip(skipIndex).limit(page.pageSize)//skip=>指定跳过的文档条数;limit=>指定查询结果的最大条数。查询当前页
