@@ -2,7 +2,6 @@
  * 菜单相关的路由
  */
 const router = require('koa-router')()
-const { listen } = require('../app')
 const Menu = require('./../models/menuSchema')
 const util = require('./../utils/util')
 
@@ -23,7 +22,8 @@ router.get('/list',async (ctx) =>{
 })
 
 //=====拼接菜单树，形成子级菜单=====
-function getMenuTree(menuList,id,list){             
+function getMenuTree(menuList,id,list){    
+    console.log('menuList=======>',menuList)         
     for (let i = 0;i<menuList.length;i++){
         let item = menuList[i]
         if(String(item.parentId.slice().pop()) == String(id)){

@@ -28,9 +28,14 @@ const routes=[{
             path:'/system/menu',
             meta:{ title:'这是菜单页' },
             component:()=>import('./../views/Menu.vue'),
+        },
+        {
+            name:'role',
+            path:'/system/role',
+            meta:{ title:'这是角色页' },
+            component:()=>import('./../views/Role.vue'),
         }
-        
-       
+              
     ]
 },
 {

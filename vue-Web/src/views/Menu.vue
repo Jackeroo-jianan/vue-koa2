@@ -1,5 +1,5 @@
 <template>
-  <div class="user__manager">
+  <div class="menu__manager">
     <!-- 顶部查询栏 -->
     <div class="search__content">
       <!-- el-form指表单，:inline="true"行内显示， -->
@@ -104,7 +104,7 @@ export default {
     const { proxy } = getCurrentInstance(); 
     //--初始化列表查询表单对象--
     const queryMenu = reactive({menuState: 1});
-    //--初始化表格分页信息--
+    //--初始化表格信息--
     const menuList = ref([])
     //--初始化新增表单对象
     const menuForm = reactive({parentId:[null],menuState:1,menuType:1})
@@ -254,10 +254,6 @@ export default {
     background: #ffffff;
     padding: 10px;
     border-bottom: 1px solid #ece8e8;
-  }
-  .pagination {
-    text-align: right;
-    padding: 10px;
   }
 }
 </style>
