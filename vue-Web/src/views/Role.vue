@@ -57,10 +57,7 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark" >
           <el-input v-model="roleForm.remark" placeholder="备注说明" />
-        </el-form-item>
-        <el-form-item label="权限标识" prop="menuCode">
-          <el-input v-model="roleForm.menuCode" placeholder="请输入权限" />
-        </el-form-item>      
+        </el-form-item>   
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -127,12 +124,27 @@ export default {
     const theRoleId = ref('')
     //--初始化菜单列表=>获取菜单权限--
     const menuList = ref([])
+    //--初始话存储角色权限的字典--
+    let actionMap = {}
     //--初始化表格格式--
     const columns = reactive([
       { label: "角色名", prop: "roleName"},
       { label: "备注", prop: "remark"},
-      { label: "权限标识", prop: "menuCode" },
-      { label: "创建时间", prop: "createTime", formatter(row, column, value) {
+      { label: "权限", 
+       prop: "permissionList",
+       //把权限字典中的名称推入列表显示
+       formatter:(row, column, value)=>{
+         let names = []
+         let list = value.halfCheckedKeys || []
+         list.map(key=>{
+           let name = actionMap[key];
+           //console.log(name)
+              if (key && name) names.push(name);
+         })
+         return names.join('、')
+       }
+       },
+      { label: "更新时间", prop: "updateTime", formatter(row, column, value) {
             return utils.dateFormat("YYYY-mm-dd HH:MM",new Date(value))}}
     ]);
     //--定义表单校验规则--
@@ -146,14 +158,15 @@ export default {
       getMenuList()
       });
 
-    //==获取用户信息列表(接口)==
+    //==获取角色信息列表(接口)==
     const getRoleList = async () => {
       try {
-        let { list,page } = await proxy.$request.get("/roles/list", queryRole);
+        let params = {...queryRole,...pageInfo}
+        let { list,page } = await proxy.$request.get("/roles/list", params,{mock:false});
         roleList.value = list;  
-        pageInfo = page;
+        pageInfo.total = page.total;
       } catch (error) {
-        console.error(error)
+        console.log(error)
       }   
     };
 
@@ -176,9 +189,10 @@ export default {
     //编辑当前角色
     const handleEdit = (row)=>{
       showCreateForm.value = true
-      action.value = 'edit'
+      action.value = 'edit'     
       proxy.$nextTick(()=>{
         Object.assign(roleForm,row)//浅拷贝
+        console.log('xxx',Object.assign(roleForm,row))
       })
     }
 
@@ -188,7 +202,7 @@ export default {
       action.value = 'delete'
       params.action = action.value
       params._id = id
-      await proxy.$request.post('roles/operate',params) 
+      await proxy.$request.post('roles/operate',params,{mock:false}) 
       proxy.$message.success('删除成功')
       getRoleList()
     }
@@ -197,12 +211,15 @@ export default {
     const handleSubmit = () =>{
      proxy.$refs.newRoleForm.validate(async(valid)=>{
        if (valid){
-         let params = toRaw(roleForm)
+         let params = roleForm
          params.action = action.value
-         await proxy.$request.post('roles/operate',params) 
-         proxy.$message.success('提交成功')
-         handleReset('newRoleForm')
-         getRoleList()
+         console.log(params)
+         let res = await proxy.$request.post('roles/operate',params,{mock:false}) 
+         if(res){
+            proxy.$message.success('提交成功')
+            handleReset('newRoleForm')
+            getRoleList()
+         }
           }  
      })
    }
@@ -237,6 +254,7 @@ export default {
     try {
       const res = await proxy.$request.get('menu/list','',{mock:false}) 
       menuList.value = res
+      getActionMap(res) //根据menuList获取权限列表，不需要去找数据库
     } catch (error) {
       console.error(error)
     }
@@ -256,24 +274,41 @@ export default {
       }
     })
     let params={
-      id:theRoleId.value,
+      _id:theRoleId.value,
       permissionList:{
         checkedKeys, //选中的按钮(数组)
         halfCheckedKeys:parentKeys.concat(halfKeys)//选中+半选中的菜单(数组)
       }
     }
-     await proxy.$request.post('/roles/update/permission',params) 
+     await proxy.$request.post('/roles/update/permission',params,{mock:false}) 
      showPermissionForm.value = false
      proxy.$message.success('设置成功')
      getRoleList()
   }
-
 
     //==当前页变动时候触发的事件==
     const handleCurrentChange = (currentPageNum) => {
       pageInfo.pageNum = currentPageNum;
       getRoleList();
     };
+
+    //==获取权限字典==
+    const getActionMap = (list)=>{
+      let actionsMap = {}
+      const deep = (arr) => {
+        while(arr.length){
+          let item = arr.pop()//遍历列表，获取按钮的上一级菜单，以_id做key，名称做value
+          if(item.children && item.action){
+            actionsMap[item._id] = item.menuName
+          }
+           if(item.children && !item.action){ //递归
+            deep(item.children)
+          }
+        }
+      }     
+      deep(JSON.parse(JSON.stringify(list)))//序列化，防止pop()后清除原数据
+      actionMap = actionsMap
+    }
 
     return {
       queryRole,
@@ -287,6 +322,7 @@ export default {
       showPermissionForm,
       theRoleName,
       menuList,
+      actionMap,
       getRoleList, 
       handleSubmit,
       handleCancel,
@@ -299,7 +335,8 @@ export default {
       handleReset,
       getMenuList,
       handlePtSubmit,
-      handleCurrentChange
+      handleCurrentChange,
+      getActionMap
 
     };
   },

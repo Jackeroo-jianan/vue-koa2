@@ -255,7 +255,7 @@ export default {
 
     //==获取权限列表(接口)==
     const getRoleList = async() =>{
-      let list = await proxy.$request.get('/roles/allList')
+      let list = await proxy.$request.get('/roles/allList','',{mock:false})
       roleList.value = list
     }
 

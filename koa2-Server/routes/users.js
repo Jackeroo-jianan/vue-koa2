@@ -45,7 +45,7 @@ router.post('/login', async (ctx) => {
   }
 })
 
-//=====查询用户/获取用户信息 的接口=====
+//=====查询用户/获取用户信息(包括分页) 的接口=====
 router.get('/list',async (ctx)=>{
   const{ userName,userId,state } = ctx.request.query
   const { page,skipIndex } = util.pager(ctx.request.query)

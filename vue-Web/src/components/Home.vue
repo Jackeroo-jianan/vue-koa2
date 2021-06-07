@@ -94,8 +94,7 @@ export default {
     },
     async getMenuList() {//获取菜单列表
       try {
-        const result = await this.$request.get("/menu/list",'');
-        
+        const result = await this.$request.get("/menu/list",'',{mock:false}); 
         this.menuList = result;
       } catch (err) {
         console.log(err);
