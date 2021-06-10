@@ -16,19 +16,21 @@ router.get('/list',async (ctx) =>{
     if(menuState){params.menuState = menuState} //需要查询的字段是menuName和menuState
 
     let menuList = await Menu.find(params) || []
-    const permissionList = getMenuTree(menuList,null,[])
-    ctx.body = util.success(permissionList)
+    if(params.menuName){                //如果是查询，不需要渲染递归树
+        ctx.body = util.success(menuList)
+    }else{
+        const permissionList = getMenuTree(menuList,null,[])
+        ctx.body = util.success(permissionList) 
+    }
+    
 
 })
 
 //=====拼接菜单树，形成子级菜单=====
-function getMenuTree(menuList,id,list){    
-    console.log('menuList=======>',menuList)         
+function getMenuTree(menuList,id,list){       
     for (let i = 0;i<menuList.length;i++){
         let item = menuList[i]
         if(String(item.parentId.slice().pop()) == String(id)){
-            console.log('item=>',item)
-            console.log('parentId==>',item.parentId.slice().pop(),'==============')
             list.push(item._doc)
         } 
     }

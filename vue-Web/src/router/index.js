@@ -34,7 +34,13 @@ const routes=[{
             path:'/system/role',
             meta:{ title:'这是角色页' },
             component:()=>import('./../views/Role.vue'),
-        }
+        },
+        {
+            name:'dept',
+            path:'/system/dept',
+            meta:{ title:'这是部门页' },
+            component:()=>import('./../views/Dept.vue'),
+        },
               
     ]
 },

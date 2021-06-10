@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const userSchema =  mongoose.Schema({
+const roleSchema =  mongoose.Schema({
     "roleName":String,   //角色名称
     "remark":String,     //备注
     "permissionList":{    //权限
@@ -12,4 +12,4 @@ const userSchema =  mongoose.Schema({
     }, 
 })
 
-module.exports = mongoose.model('roles',userSchema,'roles')
+module.exports = mongoose.model('roles',roleSchema,'roles')

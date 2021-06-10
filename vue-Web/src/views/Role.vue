@@ -20,7 +20,7 @@
         <el-button type="primary" @click="handleAdd('')">新增</el-button>
       </div>
       <!-- 信息表单 -->
-      <el-table :data="roleList" row-key="_id" :tree-props="{children: 'children'}">
+      <el-table :data="roleList" row-key="_id" :tree-props="{children: 'children'}" stripe>
         <el-table-column
           v-for="item in columns"
           :key="item.prop"
@@ -50,7 +50,7 @@
       </el-pagination>
     </div>
     <!-- 新增角色弹框 -->
-   <el-dialog title='创建角色' v-model="showCreateForm" :before-close="beforeClose" center>
+   <el-dialog :title ="action == 'add'?'新建角色':'编辑角色'" v-model="showCreateForm" :before-close="beforeClose" center>
       <el-form ref='newRoleForm' :model="roleForm" label-width='100px' :rules='rules'>
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="roleForm.roleName" placeholder="菜单名称" />
@@ -343,7 +343,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .search__content {
   background-color: #ffffff;
   padding: 22px 20px 0;

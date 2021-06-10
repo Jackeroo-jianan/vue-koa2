@@ -44,6 +44,15 @@ router.post('/login', async (ctx) => {
     ctx.body = util.fail(error.msg)
   }
 })
+//=====获取全量用户列表=====
+router.get('/all/list',async(ctx)=>{
+  try {
+    const list = await User.find({},"userId userName userEmail")
+    ctx.body = util.success(list)
+  } catch (error) {
+    ctx.body = util.fail(error.stack)
+  }
+})
 
 //=====查询用户/获取用户信息(包括分页) 的接口=====
 router.get('/list',async (ctx)=>{

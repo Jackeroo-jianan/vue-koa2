@@ -35,7 +35,7 @@
         <el-button type="danger" @click="handleBatchDel">批量删除</el-button>
       </div>
       <!-- 用户信息表单 -->
-      <el-table :data="userList" @selection-change="handleSelectionChange">
+      <el-table :data="userList" @selection-change="handleSelectionChange" stripe>
         <el-table-column type="selection" />
         <el-table-column
           v-for="item in columns"
@@ -70,7 +70,7 @@
       </el-pagination>
     </div>
     <!-- 新增用户弹框 -->
-    <el-dialog title='新增用户' v-model="showCreateForm" :before-close="beforeClose" center>
+    <el-dialog :title ="action == 'add'?'新建用户':'编辑用户'" v-model="showCreateForm" :before-close="beforeClose" center>
       <el-form ref='newForm' :model="userForm" label-width='100px' :rules='rules'>
         <el-form-item label="用户名" prop="userName" >
           <el-input v-model="userForm.userName" placeholder="请输入用户名称" />

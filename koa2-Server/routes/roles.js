@@ -66,8 +66,6 @@ router.post('/operate', async (ctx) => {
 // 权限设置
 router.post('/update/permission', async (ctx) => {
   const { _id, permissionList } = ctx.request.body;
-  console.log('idddddddddd',_id)
-  console.log('iddddpermissionListdddddd',permissionList)
   try {
     let params = { permissionList, update: new Date() }
     await Role.findByIdAndUpdate(_id, params)

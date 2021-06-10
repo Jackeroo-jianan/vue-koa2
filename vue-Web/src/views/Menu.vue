@@ -26,7 +26,7 @@
         <el-button type="primary" @click="handleAdd('')">新增</el-button>
       </div>
       <!-- 菜单信息表单 -->
-      <el-table :data="menuList" row-key="_id" :tree-props="{children: 'children'}">
+      <el-table :data="menuList" row-key="_id" :tree-props="{children: 'children'}" stripe>
         <el-table-column
           v-for="item in columns"
           :key="item.prop"
@@ -48,7 +48,7 @@
     </div>
 
     <!-- 新增用户弹框 -->
-   <el-dialog title='创建菜单' v-model="showCreateForm" :before-close="beforeClose" center>
+   <el-dialog :title ="action == 'add'?'新建菜单':'编辑菜单'" v-model="showCreateForm" :before-close="beforeClose" center>
       <el-form ref='newMenuForm' :model="menuForm" label-width='100px' :rules='rules'>
         <el-form-item label="父级菜单" prop="deptId">
           <el-cascader

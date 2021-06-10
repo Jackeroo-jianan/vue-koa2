@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const userSchema =  mongoose.Schema({
+const menuSchema =  mongoose.Schema({
     
     "menuName": String,   //名称
     "menuType": Number,   //菜单类型：1 菜单 2按钮
@@ -21,4 +21,4 @@ const userSchema =  mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('menu',userSchema,'menus')
+module.exports = mongoose.model('menu',menuSchema,'menus')

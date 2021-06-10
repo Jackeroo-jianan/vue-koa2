@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const userSchema =  mongoose.Schema({
+const counterSchema =  mongoose.Schema({
     _id:String,
     sequence_value:Number
 })
 
-module.exports = mongoose.model('counter',userSchema,'counters')
+module.exports = mongoose.model('counter',counterSchema,'counters')
