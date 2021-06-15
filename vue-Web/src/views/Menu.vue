@@ -23,7 +23,7 @@
     <div class="base__table">
       <!-- 公共功能 -->
       <div class="actions">
-        <el-button type="primary" @click="handleAdd('')">新增</el-button>
+        <el-button type="primary" @click="handleAdd('')" v-has:add="'menu-manage'">新增</el-button>
       </div>
       <!-- 菜单信息表单 -->
       <el-table :data="menuList" row-key="_id" :tree-props="{children: 'children'}" stripe>
@@ -40,8 +40,8 @@
           <!-- 通过#default="scope"获取当前行的属性 -->
           <template #default="scope">
             <!-- <el-button size="mini" type="text" @click="handleAdd(scope.row)">新增</el-button> -->
-            <el-button size="mini"  type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" plain @click="handleDel(scope.row._id)">删除</el-button>
+            <el-button size="mini"  type="primary" plain @click="handleEdit(scope.row)" v-has:add="'menu-manage'">编辑</el-button>
+            <el-button size="mini" type="danger" plain @click="handleDel(scope.row._id)" v-has:add="'menu-manage'">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

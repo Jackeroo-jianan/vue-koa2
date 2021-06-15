@@ -3,6 +3,8 @@
  */
 const router = require('koa-router')()
 const User = require('./../models/userSchema')
+const Menu = require('./../models/menuSchema')
+const Role = require('./../models/roleSchema')
 const util = require('./../utils/util')
 const jwt = require('jsonwebtoken')
 const counter = require('../models/counterSchema')
@@ -32,7 +34,7 @@ router.post('/login', async (ctx) => {
     //jwt生成token
     const token = jwt.sign({
       data  //token数据,注：实际为data:data;根据ES6语法key=value时缩写
-    }, 'imooc', //密钥
+    }, 'Y7000P', //密钥
      { expiresIn: '1h' }) //过期时间
 
       data.token = token;
@@ -147,4 +149,63 @@ router.post('/operate',async(ctx)=>{
 }
 })
 
+//==获取用户对应的权限菜单==
+router.get("/getPermissionList", async (ctx) => {
+  let authorization = ctx.request.headers.authorization //获取请求头
+
+  let { data }= util.decoded(authorization) //token解密.获取登录用户的信息--外层有一个data
+
+  let menuList = await getMenuList(data.role, data.roleList); //根据用户身份和角色渲染菜单
+  
+  let actionList = getAction(JSON.parse(JSON.stringify(menuList)))//获取菜单的按钮
+
+  ctx.body = util.success({actionList,menuList});
+})
+
+//==递归获取菜单树==
+async function getMenuList(userRole, roleKeys) {
+  let rootList = []
+
+  if (userRole == 0) { //用户身份：如果是管理员，渲染全部菜单
+    rootList = await Menu.find({}) || []
+  } else { // 用户身份：如果是会员
+
+    //根据用户角色向roles(角色数据库中)获取角色列表信息
+    let roleList = await Role.find({ _id: { $in: roleKeys } })
+
+    let permissionList = []
+
+    //一个用户可能有多个角色，把他们去重合到一个数组之中
+    roleList.map(role => {
+      let { checkedKeys, halfCheckedKeys } = role.permissionList;
+      permissionList = permissionList.concat([...checkedKeys, ...halfCheckedKeys])
+    })
+    permissionList = [...new Set(permissionList)]
+
+    //根据权限向menu(菜单数据库中)寻找所属菜单
+    rootList = await Menu.find({ _id: { $in: permissionList } })
+  }
+  //渲染菜单树
+  return util.getTreeMenu(rootList, null, [])
+}
+
+//==把这些菜单的按钮权限存到一个数组==
+function getAction(list) {
+  let actionList = []
+  const deep = (arr) => {
+    while (arr.length) {
+      let item = arr.pop();
+      if (item.action) {
+        item.action.map(action => {
+          actionList.push(action.menuCode)
+        })
+      }
+      if (item.children && !item.action) {
+        deep(item.children)
+      }
+    }
+  }
+  deep(list)
+  return actionList;
+}
 module.exports = router

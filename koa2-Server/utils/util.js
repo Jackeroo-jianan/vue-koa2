@@ -2,6 +2,7 @@
  * 通用工具函数
  */
  const log4js = require('./log4js')
+ const jwt = require('jsonwebtoken')
 
  const CODE = {
      SUCCESS: 200,
@@ -47,5 +48,35 @@
          return {
              code, data, msg
          }
-     }
+     },
+
+     //token解密
+     decoded(authorization) {
+        if (authorization) {
+            let token = authorization.split(' ')[1]
+            return jwt.verify(token, 'Y7000P')
+        }
+        return '';
+    },
+
+    // 递归拼接树形列表
+    getTreeMenu(rootList, id, list) {
+        for (let i = 0; i < rootList.length; i++) {
+            let item = rootList[i]
+            if (String(item.parentId.slice().pop()) == String(id)) {
+                list.push(item._doc)
+            }
+        }
+        list.map(item => {
+            item.children = []
+            this.getTreeMenu(rootList, item._id, item.children)
+            if (item.children.length == 0) {
+                delete item.children;
+            } else if (item.children.length > 0 && item.children[0].menuType == 2) {
+                // 快速区分按钮和菜单，方便权限控制
+                item.action = item.children;
+            }
+        })
+        return list;
+    }
 }

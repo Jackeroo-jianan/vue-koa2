@@ -31,8 +31,8 @@
     <div class="base__table">
       <!-- 公共功能 -->
       <div class="actions">
-        <el-button type="primary" @click="handleCreate">新增</el-button>
-        <el-button type="danger" @click="handleBatchDel">批量删除</el-button>
+        <el-button type="primary" @click="handleCreate" v-has:add="'user-manage'">新增</el-button>
+        <el-button type="danger" @click="handleBatchDel" v-has:add="'user-manage'">批量删除</el-button>
       </div>
       <!-- 用户信息表单 -->
       <el-table :data="userList" @selection-change="handleSelectionChange" stripe>
@@ -51,9 +51,11 @@
           <template #default="scope">
             <el-button size="mini" type="primary" plain
              @click="handleEdit(scope.row)"
+             v-has:add="'user-manage'"
               >编辑</el-button>
             <el-button size="mini" type="danger" plain
               @click="handleSingleDel(scope.row)"
+              v-has:add="'user-manage'"
               >删除</el-button
             >
           </template>

@@ -55,7 +55,7 @@ app.use(async (ctx, next) => {
 })
 
 //koajwt进行token认证拦截，默认是401
- app.use(koajwt({secret:'imooc'}).unless({
+ app.use(koajwt({secret:'Y7000P'}).unless({
    path:[/^\/api\/users\/login/]  //login接口允许放行
  }))                             
 

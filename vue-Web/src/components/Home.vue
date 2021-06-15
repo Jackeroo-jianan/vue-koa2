@@ -94,8 +94,10 @@ export default {
     },
     async getMenuList() {//获取菜单列表
       try {
-        const result = await this.$request.get("/menu/list",'',{mock:false}); 
-        this.menuList = result;
+        const {actionList,menuList} = await this.$request.get("/users/getPermissionList",'',{mock:false}); 
+        this.$store.commit("saveMenuList", menuList);     //登录用户显示的菜单
+        this.$store.commit("saveActionList", actionList); //登录用户的按钮权限
+        this.menuList = menuList;
       } catch (err) {
         console.log(err);
       }
