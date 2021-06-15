@@ -19,7 +19,7 @@
         <div class="base__table">
             <!-- 公共功能 -->
             <div class="actions">
-                <el-button  type="primary" @click ='handleAdd'>新增</el-button>
+                <el-button  type="primary" @click ='handleAdd' v-has:add="'dept-manage'">新增</el-button>
             </div>
             <!-- 信息表单 -->
             <el-table :data='deptList' row-key='_id' :tree-props="{children:'children'}" stripe>
@@ -32,8 +32,8 @@
                 <el-table-column label='操作'>
                     <template #default='scope'>
                         <!-- 通过#default="scope"获取当前行的属性 -->
-                        <el-button size="mini"  type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-                        <el-button size="mini"  type="danger" plain @click="handleDel(scope.row._id)">删除</el-button>
+                        <el-button size="mini"  type="primary" plain @click="handleEdit(scope.row)" v-has:add="'dept-manage'">编辑</el-button>
+                        <el-button size="mini"  type="danger" plain @click="handleDel(scope.row._id)" v-has:add="'dept-manage'">删除</el-button>
                     </template>
                 </el-table-column>      
             </el-table>

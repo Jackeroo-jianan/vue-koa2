@@ -17,7 +17,7 @@
     <div class="base__table">
       <!-- 公共功能 -->
       <div class="actions">
-        <el-button type="primary" @click="handleAdd('')">新增</el-button>
+        <el-button type="primary" @click="handleAdd('')" v-has:add="'role-manage'">新增</el-button>
       </div>
       <!-- 信息表单 -->
       <el-table :data="roleList" row-key="_id" :tree-props="{children: 'children'}" stripe>
@@ -33,9 +33,9 @@
         <el-table-column label="操作" width=260>
           <!-- 通过#default="scope"获取当前行的属性 -->
           <template #default="scope">
-            <el-button size="mini"  type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini"  type="primary" plain @click="handleSet(scope.row) ">设置权限</el-button>
-            <el-button size="mini" type="danger" plain @click="handleDel(scope.row._id)">删除</el-button>
+            <el-button size="mini"  type="primary" plain @click="handleEdit(scope.row)" v-has:add="'role-manage'">编辑</el-button>
+            <el-button size="mini"  type="primary" plain @click="handleSet(scope.row) " v-has:add="'role-manage'">设置权限</el-button>
+            <el-button size="mini" type="danger" plain @click="handleDel(scope.row._id)" v-has:add="'role-manage'">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

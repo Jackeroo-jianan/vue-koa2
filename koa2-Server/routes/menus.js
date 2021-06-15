@@ -19,33 +19,12 @@ router.get('/list',async (ctx) =>{
     if(params.menuName){                //如果是查询，不需要渲染递归树
         ctx.body = util.success(menuList)
     }else{
-        const permissionList = getMenuTree(menuList,null,[])
+        const permissionList = util.getTreeMenu(menuList,null,[])
         ctx.body = util.success(permissionList) 
     }
     
 
 })
-
-//=====拼接菜单树，形成子级菜单=====
-function getMenuTree(menuList,id,list){       
-    for (let i = 0;i<menuList.length;i++){
-        let item = menuList[i]
-        if(String(item.parentId.slice().pop()) == String(id)){
-            list.push(item._doc)
-        } 
-    }
-    list.map(item=>{
-        item.children = []
-        getMenuTree(menuList,item._id,item.children)
-        if(item.children.length==0){
-            delete item.children
-        }else if ( item.children.length>0 && item.children[0].menuType == 2){
-            item.action = item.children
-            
-        }
-    })
-    return list
-}
 
 //=====操作菜单的接口(新增/编辑/删除)=====
 router.post('/operate', async (ctx) => {
