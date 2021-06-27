@@ -13,5 +13,5 @@
 不同的角色对应不同的权限，如查阅权限，修改权限等，用户根据自身的角色获取权限
 ![image](https://github.com/Jackeroo-jianan/vue-koa2/blob/master/imgs/role.png)
 ### 部门
-用户的基本信息之一，审批流的必要部分人
+用户的基本信息之一，完成审批流的必要部分
 ![image](https://github.com/Jackeroo-jianan/vue-koa2/blob/master/imgs/dept.png)
